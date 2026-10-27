@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Qeyd – Blog Tətbiqi</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f6;--surface:#fff;--ink:#1b2340;--muted:#5d6785;--line:#d7dce8;--accent:#3d5afe;--accent-ink:#fff;--warn:#c62a47;
+--head:"Bricolage Grotesque",system-ui,sans-serif;--body:"Source Serif 4",Georgia,serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12152a;--surface:#1b2040;--ink:#e9ecfa;--muted:#9aa3c7;--line:#2e3563;--accent:#7b8cff;--accent-ink:#10132a;--warn:#ff7b94;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12152a;--surface:#1b2040;--ink:#e9ecfa;--muted:#9aa3c7;--line:#2e3563;--accent:#7b8cff;--accent-ink:#10132a;--warn:#ff7b94;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.65}
+h1,h2,h3,.brand,button,.btn,label,nav a{font-family:var(--head)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar{max-width:1040px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:26px;text-decoration:none;letter-spacing:-.5px;margin-right:auto}
+.brand span{background:var(--accent);color:var(--accent-ink);padding:0 8px;border-radius:6px;margin-right:2px}
+nav{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+nav a{text-decoration:none;padding:8px 14px;border-radius:8px;font-weight:500;font-size:16px;color:var(--muted)}
+nav a:hover,nav a.on{background:var(--bg);color:var(--ink)}
+.btn,button{font-weight:700;font-size:16px;border:0;border-radius:8px;padding:11px 20px;cursor:pointer;background:var(--accent);color:var(--accent-ink);text-decoration:none;display:inline-block}
+.btn.ghost,button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button.danger{background:transparent;color:var(--warn);border:1px solid var(--line);padding:6px 12px;font-size:14px}
+main{max-width:1040px;margin:auto;padding:36px 20px 72px}
+h1{font-size:clamp(34px,6vw,58px);line-height:1.05;margin:0 0 14px;letter-spacing:-1.5px;font-weight:800}
+h2{font-size:26px;margin:0 0 12px}
+.lead{color:var(--muted);max-width:560px;margin:0 0 24px}
+.hero{padding:28px 0 36px;border-bottom:1px solid var(--line);margin-bottom:32px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px}
+.card h3{margin:0;font-size:22px;line-height:1.2}
+.card p{margin:0;color:var(--muted);font-size:16px}
+.tag{font-family:var(--head);font-size:13px;font-weight:700;color:var(--accent);background:var(--bg);align-self:flex-start;padding:2px 10px;border-radius:99px}
+.meta{font-family:var(--head);font-size:14px;color:var(--muted);margin-top:auto;padding-top:8px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px;max-width:460px;margin:20px auto}
+.panel.wide{max-width:720px}
+label{display:block;font-weight:700;font-size:15px;margin:16px 0 6px}
+input,select,textarea{width:100%;font:inherit;font-size:17px;padding:11px 13px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+textarea{min-height:220px;resize:vertical}
+.msg{font-family:var(--head);font-size:15px;margin-top:14px;min-height:22px;color:var(--warn)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:20px 0 28px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 20px}
+.stat b{font-family:var(--head);font-size:34px;display:block;line-height:1.1}
+.stat span{font-family:var(--head);font-size:14px;color:var(--muted)}
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-family:var(--head);font-size:14px;color:var(--muted)}
+.empty{text-align:center;color:var(--muted);padding:40px 0}
+.read{max-width:680px;margin:auto}
+.read p{white-space:pre-wrap}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);font-family:var(--head);padding:10px 20px;border-radius:99px;font-size:15px}
+@media (max-width:560px){body{font-size:17px}.panel{padding:20px}.bar{gap:8px}}
+@media (prefers-reduced-motion:no-preference){.hero h1{animation:in .5s ease both}@keyframes in{from{opacity:0;transform:translateY(8px)}}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<a class="brand" href="#home"><span>Q</span>eyd</a>
+<nav id="nav" aria-label="Əsas menyu"></nav>
+</div></header>
+<main id="app"></main>
+
+<script>
+var KEY="qeyd_v1";
+var seed={users:[],session:null,posts:[
+{id:1,title:"HTML ilə ilk addımlar",cat:"HTML",author:"Aysel",date:"2026-10-02",body:"HTML səhifənin skeletidir. Başlıq, paraqraf, şəkil və keçid kimi elementlər məzmunun mənasını təyin edir.\n\nƏvvəlcə semantik teqləri (header, main, footer) öyrənin – həm oxunaqlıq, həm də əlçatanlıq üçün vacibdir."},
+{id:2,title:"CSS Grid ilə adaptiv kartlar",cat:"CSS",author:"Murad",date:"2026-10-09",body:"Grid ekran enindən asılı olaraq sütun sayını avtomatik dəyişə bilər. repeat(auto-fill, minmax(290px, 1fr)) bunun ən qısa yoludur.\n\nMedia query-lər yalnız incə tənzimləmə üçün qalır."},
+{id:3,title:"JavaScript-də hadisələr",cat:"JavaScript",author:"Leyla",date:"2026-10-17",body:"Hadisə istifadəçi hərəkətinə cavabdır: klik, yazma, göndərmə. addEventListener ilə elementə dinləyici əlavə edirik.\n\nBeləliklə statik səhifə interaktiv tətbiqə çevrilir."}]};
+var db;
+try{db=JSON.parse(localStorage.getItem(KEY))||seed}catch(e){db=seed}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}}
+function $(s){return document.querySelector(s)}
+function esc(t){var d=document.createElement("div");d.textContent=t;return d.innerHTML}
+function toast(t){var e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(function(){e.remove()},2200)}
+function go(p){location.hash=p}
+function me(){return db.session}
+
+function nav(page){
+ var l=[["home","Ana səhifə"]];
+ if(me()){l.push(["dashboard","Panel"],["create","Yeni yazı"])}else{l.push(["login","Daxil ol"],["register","Qeydiyyat"])}
+ var h=l.map(function(x){return '<a href="#'+x[0]+'"'+(x[0]===page?' class="on" aria-current="page"':'')+'>'+x[1]+'</a>'}).join("");
+ if(me())h+='<button class="ghost" id="out">Çıxış</button>';
+ $("#nav").innerHTML=h;
+ var o=$("#out");if(o)o.onclick=function(){db.session=null;save();toast("Çıxış edildi");go("home")}
+}
+
+function cardHTML(p){return '<article class="card"><span class="tag">'+esc(p.cat)+'</span><h3>'+esc(p.title)+'</h3><p>'+esc(p.body.slice(0,110))+'…</p><div class="meta">'+esc(p.author)+' · '+p.date+'</div><a href="#post'+p.id+'" class="btn ghost" style="margin-top:10px;text-align:center">Oxu</a></article>'}
+
+var pages={
+home:function(){
+ return '<section class="hero"><h1>Fikirlərini yaz,<br>başqaları oxusun.</h1><p class="lead">Qeyd – sadə blog platformasıdır. Qeydiyyatdan keç, yazı hazırla və dərhal dərc et.</p>'+(me()?'<a class="btn" href="#create">Yeni yazı yaz</a>':'<a class="btn" href="#register">Başla</a> <a class="btn ghost" href="#login">Daxil ol</a>')+'</section><h2>Son yazılar</h2><div class="grid">'+db.posts.slice().reverse().map(cardHTML).join("")+'</div>'
+},
+login:function(){
+ return '<div class="panel"><h2>Daxil ol</h2><form id="f" novalidate><label for="e">E-poçt</label><input id="e" type="email" autocomplete="email"><label for="p">Şifrə</label><input id="p" type="password" autocomplete="current-password"><div class="msg" id="m" role="alert"></div><button type="submit" style="width:100%">Daxil ol</button></form><p style="font-size:16px">Hesabın yoxdur? <a href="#register">Qeydiyyatdan keç</a></p></div>'
+},
+register:function(){
+ return '<div class="panel"><h2>Hesab yarat</h2><form id="f" novalidate><label for="n">Ad</label><input id="n" autocomplete="name"><label for="e">E-poçt</label><input id="e" type="email" autocomplete="email"><label for="p">Şifrə (ən azı 6 simvol)</label><input id="p" type="password" autocomplete="new-password"><div class="msg" id="m" role="alert"></div><button type="submit" style="width:100%">Qeydiyyatdan keç</button></form><p style="font-size:16px">Artıq hesabın var? <a href="#login">Daxil ol</a></p></div>'
+},
+dashboard:function(){
+ var mine=db.posts.filter(function(p){return p.author===me().name});
+ var rows=mine.map(function(p){return '<tr><td>'+esc(p.title)+'</td><td>'+esc(p.cat)+'</td><td>'+p.date+'</td><td><a href="#post'+p.id+'">Bax</a></td><td><button class="danger" data-del="'+p.id+'">Sil</button></td></tr>'}).join("");
+ return '<h1 style="font-size:40px">Salam, '+esc(me().name)+'</h1><div class="stats"><div class="stat"><b>'+mine.length+'</b><span>Sənin yazıların</span></div><div class="stat"><b>'+db.posts.length+'</b><span>Bütün yazılar</span></div></div><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px"><h2 style="margin:0">Yazılarım</h2><a class="btn" href="#create">Yeni yazı</a></div>'+(mine.length?'<div class="wrap"><table><thead><tr><th>Başlıq</th><th>Kateqoriya</th><th>Tarix</th><th></th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<p class="empty">Hələ yazın yoxdur. İlk yazını yaz.</p>')
+},
+create:function(){
+ return '<div class="panel wide"><h2>Yeni yazı</h2><form id="f" novalidate><label for="t">Başlıq</label><input id="t"><label for="c">Kateqoriya</label><select id="c"><option>HTML</option><option>CSS</option><option>JavaScript</option><option>Digər</option></select><label for="b">Məzmun</label><textarea id="b"></textarea><div class="msg" id="m" role="alert"></div><button type="submit">Dərc et</button> <a class="btn ghost" href="#dashboard">Ləğv et</a></form></div>'
+},
+post:function(id){
+ var p=db.posts.filter(function(x){return x.id==id})[0];
+ if(!p)return '<p class="empty">Yazı tapılmadı. <a href="#home">Ana səhifəyə qayıt</a></p>';
+ return '<article class="read"><span class="tag">'+esc(p.cat)+'</span><h1 style="font-size:clamp(30px,5vw,46px);margin-top:10px">'+esc(p.title)+'</h1><div class="meta" style="margin-bottom:24px">'+esc(p.author)+' · '+p.date+'</div><p>'+esc(p.body)+'</p><a class="btn ghost" href="#home">← Geri</a></article>'
+}};
+
+function bind(page){
+ var f=$("#f"),m=$("#m");if(!f)return;
+ f.onsubmit=function(ev){ev.preventDefault();var v=function(i){return $("#"+i).value.trim()};
+  if(page==="register"){
+   if(!v("n")||!/^\S+@\S+\.\S+$/.test(v("e")))return m.textContent="Ad və düzgün e-poçt daxil et.";
+   if(v("p").length<6)return m.textContent="Şifrə ən azı 6 simvol olmalıdır.";
+   if(db.users.some(function(u){return u.email===v("e")}))return m.textContent="Bu e-poçt artıq qeydiyyatdadır.";
+   db.users.push({name:v("n"),email:v("e"),pass:v("p")});db.session={name:v("n"),email:v("e")};save();toast("Xoş gəldin!");go("dashboard")}
+  if(page==="login"){
+   var u=db.users.filter(function(x){return x.email===v("e")&&x.pass===v("p")})[0];
+   if(!u)return m.textContent="E-poçt və ya şifrə yanlışdır.";
+   db.session={name:u.name,email:u.email};save();toast("Daxil oldun");go("dashboard")}
+  if(page==="create"){
+   if(v("t").length<3)return m.textContent="Başlıq ən azı 3 simvol olmalıdır.";
+   if(v("b").length<20)return m.textContent="Məzmun çox qısadır (ən azı 20 simvol).";
+   db.posts.push({id:Date.now(),title:v("t"),cat:v("c"),author:me().name,date:new Date().toISOString().slice(0,10),body:v("b")});save();toast("Dərc olundu");go("dashboard")}
+ };
+ document.querySelectorAll("[data-del]").forEach(function(b){b.onclick=function(){db.posts=db.posts.filter(function(p){return p.id!=b.dataset.del});save();toast("Silindi");render()}})
+}
+
+function render(){
+ var h=(location.hash||"#home").slice(1),page=h,arg;
+ if(h.indexOf("post")===0){page="post";arg=h.slice(4)}
+ if(!pages[page])page="home";
+ if((page==="dashboard"||page==="create")&&!me())page="login";
+ if((page==="login"||page==="register")&&me())page="dashboard";
+ nav(page);
+ $("#app").innerHTML=pages[page](arg);
+ document.querySelectorAll("[data-del]").length||0;
+ bind(page);
+ window.scrollTo(0,0);
+}
+document.querySelector("#app").addEventListener("click",function(e){var b=e.target.closest("[data-del]");if(b&&!b.onclick){}});
+window.addEventListener("hashchange",render);
+render();
+</script>
+</body>
+</html>
